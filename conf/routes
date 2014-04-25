@@ -11,3 +11,5 @@ GET     /webjars/*file              controllers.WebJarAssets.at(file)
 
 GET     /login                      controllers.Auth.loginPage()
 POST    /loginAuth                  controllers.Auth.loginAuth()
+
+GET     /signup                     controllers.Auth.signupPage()

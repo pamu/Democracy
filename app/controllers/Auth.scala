@@ -3,6 +3,7 @@ package controllers
 import play.api.mvc.{Controller, Action}
 import play.api.data.Form
 import play.api.data.Forms._
+import models._
 
 object Auth extends Controller {
   
@@ -21,6 +22,16 @@ object Auth extends Controller {
       formWithErrors => BadRequest(views.html.loginPage(formWithErrors)),
       data => Redirect(routes.Application.index)
     )
+  }
+  
+  val signupForm = Form(tuple("username" -> nonEmptyText , "password" -> nonEmptyText) verifying("error.exists", tuple => exists(tuple._1)))
+  
+  def exists(username: String): Boolean = {
+    ! UserDAO.findIfOneExistsWith(username)
+  }
+  
+  def signupPage() = Action {
+    Ok(views.html.signupPage(signupForm))
   }
   
 }

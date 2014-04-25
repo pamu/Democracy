@@ -9,8 +9,14 @@
     <script type='text/javascript' src='@routes.WebJarAssets.at(WebJarAssets.locate("jquery.min.js"))'></script>
     <style>
     body {
+    	background-color: #aaccff;
         margin-top: 50px;
+        
     }
+    <!-- background: url('@routes.Assets.at("images/nature.jpg")');
+        background-size: cover;
+        opacity:0.6;
+        background-repeat:no-repeat; -->
     </style>
 </head>
 <body>
@@ -18,6 +24,11 @@
         <div class="navbar-inner">
             <div class="container-fluid">
                 <a id="titleLink" class="brand" href="/">@title</a>
+                
+                <ul class="nav">
+                	<li><a href="/signup">Signup</a></li>
+                </ul>
+                
             </div>
         </div>
     </div>

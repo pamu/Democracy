@@ -33,10 +33,12 @@ object DAO {
 	
 	def initTables = db.withSession(implicit session => {
 	  //Insert users
-	  users += User(11111, "admin", "1234", "inquisitive")
+	  users += User("admin", "1234", "inquisitive")
 	  //Insert Topics
 	  topics += Topic("politics", "your region politics ideas and problems")
 	 
 	  
 	})
+	
+	
 }
