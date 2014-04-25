@@ -1,0 +1,2 @@
+error.login = auth id or password is incorrect
+error.required = this field is required
