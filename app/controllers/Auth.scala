@@ -34,4 +34,11 @@ object Auth extends Controller {
     Ok(views.html.signupPage(signupForm))
   }
   
+  def signupAuth() = Action { implicit request =>
+    signupForm.bindFromRequest().fold(
+        formWithErrors => BadRequest(views.html.signupPage(formWithErrors)),
+        data => Ok("signup done :)")
+        )
+  }
+  
 }
