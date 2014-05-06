@@ -1,2 +1,1 @@
-error.login = auth id or password is incorrect
-error.required = this field is required
+error.loginfailed = email or password is incorrect

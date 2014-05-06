@@ -5,16 +5,16 @@ import scala.slick.lifted.{TableQuery, Tag}
 import scala.slick.model.ForeignKeyAction
 import java.sql.Timestamp
 
-case class User(authId: String, password: String, desc: String, id: Option[Long] = None)
+case class User(email: String, password: String, desc: String, location: String, id: Option[Long] = None)
 
 class Users(tag: Tag) extends Table[User](tag, "USERS") {
-  def authId = column[String]("NAME", O.NotNull)
+  def email = column[String]("EMAIL", O.NotNull)
   def password = column[String]("PASSWORD", O.NotNull)
   def desc = column[String]("DESC", O.NotNull)
+  def location = column[String]("LOCATION", O.NotNull)
   def id = column[Long]("ID", O.NotNull, O.PrimaryKey, O.AutoInc)
-  def * = (authId, password, desc, id.?) <> (User.tupled, User.unapply)
+  def * = (email, password, desc, location, id.?).shaped <> (User.tupled, User.unapply)
 }
-
 
 case class Topic(name: String, desc: String, id: Option[Long] = None)
 

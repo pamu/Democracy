@@ -1,5 +1,13 @@
 @(title: String)
 
 @main("Welcome to Democracy"){
-   <div class="well">@title</div>
+  
+   	
+   <textarea cols="30" rows="10"></textarea>
+   
+   <script type='text/javascript' src='@routes.Assets.at("js/bootstrap-wysihtml5.js")'></script>
+   
+   <script type="text/javascript">
+   	$('.textarea').wysihtml5();
+   </script>
 }

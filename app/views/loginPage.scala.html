@@ -1,56 +1,41 @@
 @* loginPage Template File *@
 @(loginForm: Form[(String, String)])
 
+@import helper._
+@import helper.twitterBootstrap._
 @import play.api.i18n.Messages
 
 @main("Login"){
 	
-	<div class="alert alert-success">
-		<h1>Login</h1>
-	</div>
-	
-	<div class="well">	
-	
-	<form method="POST" action='@routes.Auth.loginAuth' class="form-horizontal">
-  	 <div class="control-group">
-    	<label class="control-label" for="inputUsername">Auth ID</label>
-		    <div class="controls">
-		      <input type="text" id="inputUsername" name="username" placeholder="Username">
-		      @loginForm.error("username") match{
-		      	case Some(error) =>{
-		      		 <span class="alert alert-error">@Messages(error.message)</span>
-		      	}
-		      	case None =>{}
-		      }
-		    </div>
-    </div>
-    
-  	<div class="control-group">
-      <label class="control-label" for="inputPassword">Password</label>
-       <div class="controls">
-	      <input type="password" id="inputPassword" name="password" placeholder="Password">
-	       @loginForm.error("password") match{
-	      	case Some(error) =>{
-	      		 <span class="alert alert-error">@Messages(error.message)</span>
-	      	}
-	      	case None =>{}
-	      }
-      </div>
-  	</div>
-  	
-	  <div class="control-group">
-	    <div class="controls">
-	      <!--<label class="checkbox">
-	        <input type="checkbox"> Remember me
-	      </label>-->
-	      <button type="submit" class="btn">Login</button>
-	    </div>
-	  </div>
-	</form>
+		<fieldset>
+		
+		<legend>Login or <a href="/signup">Go to Sign Up.</a></legend>
+		<div class="well">
+		
+			@form(action = routes.Auth.loginAuth()){
+				
+				@inputText(
+					loginForm("email"),
+					'_label -> "Email",
+					'_showConstraints -> false
+					
+					)
+					
+				@inputPassword(
+					loginForm("password"),
+					'_label -> "Password",
+					'_showConstraints -> false
+					
+					)
+					
+				<button class="btn btn-default">Login</button>
+			}
+			
+			</div>
+		</fieldset>
 	
 	@loginForm.globalErrors.map{ error =>
-		<div class="alert alert-error">@Messages(error.message)</div>
+		<div class="alert alert-error">@Messages(error.message) <a href="/">Forgot Password ?</a></div>
 	}
 	
-	</div>
 }

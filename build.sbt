@@ -1,6 +1,6 @@
 import play.Project._
 
-name := """hello-play-scala"""
+name := """Democracy"""
 
 version := "1.0-SNAPSHOT"
 

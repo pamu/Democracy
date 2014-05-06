@@ -1,16 +1,56 @@
 @* signupPage Template File *@
-@(signupForm: Form[(String, String)])
+@(signupForm: Form[models.User])
 
 @import helper._
 @import helper.twitterBootstrap._
 
 @main("Signup"){
-	<div class="well">
+		
 		@form(action = routes.Auth.signupAuth){
-			@inputText(signupForm("username"), '_label -> "AuthId", '_showConstraints -> false)
-			@inputText(signupForm("password"), '_label -> "Password", '_showConstraints -> false)
-			@inputText(signupForm("repassword"), '_label -> "Retype Password", '_showConstraints -> false)
+			
+			<fieldset>
+				
+			<legend>Sign Up or <a href="/login">Go to Login</a></legend>
+			<div class="well">
+			@inputText(
+				signupForm("email"), 
+				'_label -> "Email", 
+				'_showConstraints -> false
+				
+			)
+				
+			@inputPassword(
+				signupForm("password.main"),
+				'_label -> "Password",
+				'_showConstraints -> false
+				
+			)
+			
+			@inputPassword(
+				signupForm("password.confirm"),
+				'_label -> "Repeat Password",
+				'_showConstraints -> false
+				)
+				
+			@inputText(
+				signupForm("location"),
+				'_label -> "Location",
+				'_showConstraints -> false
+			)
+			
+			@textarea(
+				signupForm("description"),
+				'_label -> "Description",
+				'_showConstraints -> false
+			)
+			
+			
 			<button class="btn btn-default">Sign Up</button>
+			
+			</div>
+			</fieldset>
+			
+			
 		}
-	</div>
+	
 }

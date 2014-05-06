@@ -5,12 +5,17 @@ import DAO._
 
 object UserDAO {
   
-	def findIfOneExistsWith(username: String) = db.withSession(implicit session => {
-	 val list = (for(user <- users.filter(_.authId === username)) yield user).list
-	 list.headOption match {
-	   case None => false
-	   case Some(user) => true
-	 }
+	def findOneByEmail(email: String) = db.withSession(implicit session => {
+	 val query = for(user <- users.filter(_.email === email)) yield user
+	 query.firstOption
+	})
+	
+	def authenticate(email: String, password: String) = db.withSession(implicit session => {
+	  val query = for(user <- users.filter(_.email === email).filter(_.password === password)) yield user
+	  query.firstOption match {
+	    case Some(user) => true
+	    case None => false
+	  }
 	})
 	
 }

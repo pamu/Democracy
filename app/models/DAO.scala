@@ -15,7 +15,7 @@ object DAO {
 	val userSubscriptions = TableQuery[UserSubscriptions]
 	val postSubscriptions = TableQuery[PostSubscriptions]
 	
-	def db = Database.forURL(url = "jdbc:mysql://localhost/play", driver = "com.mysql.jdbc.Driver", user="root", password="Android@4.4.2")
+	def db = Database.forURL(url = "jdbc:mysql://localhost/democracy_db", driver = "com.mysql.jdbc.Driver", user="root", password="root")
 	
 	def init = db.withSession(implicit session => {
 	  (users.ddl ++ topics.ddl ++ posts.ddl ++ comments.ddl ++ endorsePosts.ddl ++ endorseComments.ddl ++ subscriptions.ddl 
@@ -25,20 +25,35 @@ object DAO {
 	def clean = db.withSession(implicit session => {
 	  import scala.slick.jdbc.StaticQuery.interpolation
 	  
-	  val query = sql"drop database if exists play".as[String]
+	  val query = sql"drop database if exists democracy_db".as[String]
 	  query.execute
-	  val create = sql"create database play".as[String]
+	  val create = sql"create database democracy_db".as[String]
 	  create.execute
 	})
 	
 	def initTables = db.withSession(implicit session => {
-	  //Insert users
-	  users += User("admin", "1234", "inquisitive")
-	  //Insert Topics
-	  topics += Topic("politics", "your region politics ideas and problems")
-	 
+	 import AutoInc._
+	  val id = userAutoId.insert(User("nagarjuna.pamu@gmail.com","pamu_1234","mandi","inquisitive learner"))
+	  println(s"id is $id")
+	  val iid = userAutoId.insert(User("admin@gmail.com","admin_1234","hyd","inquisitive learner"))
+	  println(s"id is $iid")
 	  
 	})
+	
+	object AutoInc {
+	  
+	  def userAutoId = users returning users.map(_.id) into {
+	  	case (_, id) => id 
+	  }
+	  
+	  def postAutoId = posts returning posts.map(_.id) into {
+	    case (_, id) => id
+	  }
+	  
+	  
+	  
+	}
+	
 	
 	
 }

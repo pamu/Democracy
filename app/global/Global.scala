@@ -9,6 +9,7 @@ object Global extends GlobalSettings {
     Logger.info("Application has started")
     //DAO.clean
     //DAO.init
+    //DAO.initTables
   }  
   
   override def onStop(app: Application) {
