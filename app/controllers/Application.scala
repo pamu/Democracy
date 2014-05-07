@@ -8,6 +8,7 @@ import play.api.libs.json._
 import play.api.libs.functional.syntax._
 import java.sql.Timestamp
 import java.util.Date
+import play.api.mvc.Results
 
 object Application extends Controller with Secured {
   
@@ -15,34 +16,31 @@ object Application extends Controller with Secured {
     Ok(views.html.index("Welcome to Democracy"))
   }
   
+  /**
+   * class for post data
+   */
   case class PostData(topicId: Long, content: String)
-  def post() = Action(parse.json) { implicit request =>
-    val session = request.session
-    val email = session.get("email").get
-    val user: User = UserDAO.findOneByEmail(email) match {
-      case Some(user) => user
-      case None => User("","","","",Some(1))
-    }
-    println("post route used")
+  
+  def post() = withUserWithBodyParser(parse.json) { user => implicit request =>
+    /**
+     * Reads[PostData] helps to convert Json data to PostData object which will be further converted to POST object and persisted in Database
+     */
     implicit val postDataReads: Reads[PostData] = (
         (JsPath \ "topicId").read[Long] and
         (JsPath \ "content").read[String]
         )(PostData.apply _)
-        
-    val jsonData = request.body
-    jsonData.validate[PostData].fold(
+    request.body.validate[PostData].fold(
         valid = { postData =>
-          val post = Post(user.id.get, postData.topicId,new Timestamp(new Date().getTime()), postData.content, None)
+          val post = Post(user.id.get, postData.topicId, new Timestamp(new Date().getTime()), postData.content, None)
           UserDAO.savePost(post)
-          Ok("saved")
+          Ok("saved to Database")
         },
-        invalid = {
-          errors => BadRequest(JsError.toFlatJson(errors))
+        invalid = { errors =>
+          BadRequest(JsError.toFlatJson(errors))
         }
-        )
-    
+    )
   }
-  
+ 
  
   
   def javascriptRoutes() = Action { implicit request =>
