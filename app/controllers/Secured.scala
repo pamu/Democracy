@@ -38,14 +38,14 @@ trait Secured {
   /**
    * now this method works with any body parser
    */
-  def IsAuthenticatedWithBosyParser[A](p: BodyParser[A])(f: => String => Request[A] => Result) = Security.Authenticated(email, onUnauthorized) { user =>
+  def IsAuthenticatedWithBodyParser[A](p: BodyParser[A])(f: => String => Request[A] => Result) = Security.Authenticated(email, onUnauthorized) { user =>
     Action(p)(request => f(user)(request))
   }
   
   /**
    * now this method works with any body parser
    */
-  def withUserWithBodyParser[A](p: BodyParser[A])(f: User => Request[A] => Result) = withAuth(p) { email => implicit request => 
+  def withUserWithBodyParser[A](p: BodyParser[A])(f: User => Request[A] => Result) = IsAuthenticatedWithBodyParser(p) { email => implicit request => 
     UserDAO.findOneByEmail(email) match {
       case Some(user) => f(user)(request)
       case None => Results.Forbidden
