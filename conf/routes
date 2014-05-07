@@ -3,6 +3,8 @@
 # ~~~~
 
 GET     /                           controllers.Application.index()
+GET    /javascriptRoutes   controllers.Application.javascriptRoutes()
+GET    /message                     controllers.Application.message
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
@@ -14,3 +16,8 @@ POST    /loginAuth                  controllers.Auth.loginAuth()
 
 GET     /signup                     controllers.Auth.signupPage()
 POST    /signupAuth                 controllers.Auth.signupAuth()
+
+POST    /post/new                   controllers.Application.post()
+
+GET     /logout                     controllers.Auth.logout()
+

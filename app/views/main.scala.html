@@ -1,4 +1,4 @@
-@(title: String)(content: Html)
+@(title: String)(content: Html)(implicit session: play.api.mvc.Session)
 
 <!DOCTYPE html>
 <html>
@@ -8,6 +8,7 @@
     <link rel='stylesheet' href='@routes.Assets.at("css/bootstrap-wysihtml5.css")'>
     <link rel='stylesheet' href='@routes.WebJarAssets.at(WebJarAssets.locate("bootstrap.min.css"))'>
     <script type='text/javascript' src='@routes.WebJarAssets.at(WebJarAssets.locate("jquery.min.js"))'></script>
+    <script type="text/javascript" src="@routes.Application.javascriptRoutes"></script>
     <style>
     body {
     	background-color: #ccffee;
@@ -22,6 +23,26 @@
             <div class="container-fluid">
                 <a id="titleLink" class="brand" href="/">Democracy</a>
                 
+                    <form class="navbar-search pull-left">
+				    	<input type="text" class="search-query span10" placeholder="Search for People, Topics and Posts">
+				    </form>
+                
+                 <ul class="nav">
+                 	
+                 	@session.get("email") match {
+                 		case Some(x) => {
+                 			
+                 			<li><a href="#myModal" role="button" data-toggle="modal">Post</a></li>
+                 			<li ><a href="/"><i class="icon-user"></i>@x</a></li>
+                 			<li ><a href="/logout"><i class="icon-off"></i>Logout</a></li>
+                 			}
+                 		case None => {
+                 			<li ><a href="/login"><i class="icon-user"></i>Login</a></li>
+                 			<li ><a href="/signup"><i class="icon-user"></i>Sign up</a></li>
+                 		}
+                 	}
+					
+				</ul>
                 
             </div>
         </div>
@@ -29,5 +50,67 @@
     <div class="container">
         @content
     </div>
+    
+    <!-- Modal -->
+    
+	<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			<h3 id="myModalLabel">Post</h3>
+		</div>
+		<div class="modal-body">
+			<p>One fine body…</p>
+			<label>Post about </label>
+			<select class="selectpicker" id="topic_selector">
+				<option value="1">Technology</option>
+				<option value="2">Social</option>
+				<option value="3">Culture</option>
+				<option value="4">Economic</option>
+				<option value="5">Crime</option>
+				<option value="6">Politics</option>
+				<option value="7">Corruption</option>
+				<option value="8">Government</option>
+				<option value="9">Other</option>
+			</select>
+			
+			<label>What's in your mind?</label>
+			<textarea id="content" rows="10" class="span7"></textarea>
+		</div>
+		<div class="modal-footer">
+			<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+			<button id="post_button" class="btn btn-primary">Post</button>
+		</div>
+	</div>
+	
+    <script type="text/javascript" src='@routes.Assets.at("js/modal.js")'></script>
+    <script type="text/javascript">
+
+
+	$(document).ready(function(){
+		$("#post_button").click(function(event){
+
+        	var topicId = $("#topic_selector").val();
+        	var content = $("#content").val();
+        	
+        	var postData = {
+            	'topicId': Number(topicId),
+            	'content': content
+            }
+            
+        	jsRoutes.controllers.Application.post().ajax({
+            	data: JSON.stringify(postData),
+               	contentType:'application/json',
+               	success: function(data) {
+                   	alert("data "+data)
+                   	$("#content").text("");
+                   	$('.modal').modal('hide')
+                }
+            });
+			
+		});
+	});
+
+    
+    </script>
 </body>
 </html>

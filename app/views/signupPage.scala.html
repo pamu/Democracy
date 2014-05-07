@@ -1,5 +1,5 @@
 @* signupPage Template File *@
-@(signupForm: Form[models.User])
+@(signupForm: Form[models.User])(implicit session: play.api.mvc.Session)
 
 @import helper._
 @import helper.twitterBootstrap._
@@ -51,6 +51,10 @@
 			</fieldset>
 			
 			
+		}
+		
+		@signupForm.globalErrors.map{ error =>
+			<div class="alert alert-error">@Messages(error.message)</div>
 		}
 	
 }

@@ -18,4 +18,11 @@ object UserDAO {
 	  }
 	})
 	
+	def saveUser(user: User) = db.withTransaction(implicit tx => {
+	  users += user
+	})
+	
+	def savePost(post: Post) = db.withTransaction(implicit tx => {
+	  posts += post
+	})
 }

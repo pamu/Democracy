@@ -1,5 +1,5 @@
 @* loginPage Template File *@
-@(loginForm: Form[(String, String)])
+@(loginForm: Form[(String, String)])(implicit session: play.api.mvc.Session)
 
 @import helper._
 @import helper.twitterBootstrap._

@@ -50,10 +50,21 @@ object DAO {
 	    case (_, id) => id
 	  }
 	  
-	  
-	  
+	  def topicAutoId = topics returning users.map(_.id) into {
+	    case (_, id) => id
+	  }
 	}
 	
-	
-	
+	def fillTopics = db.withTransaction(implicit tx => {
+	  topics += Topic("Technology","technical issues")
+	  topics += Topic("Social", "social issues")
+	  topics += Topic("Culture", "cultural issues")
+	  topics += Topic("Economic", "economic issues")
+	  topics += Topic("Crime", "crime issues")
+	  topics += Topic("Politics", "political issues")
+	  topics += Topic("Cooruption", "cooruption related issues")
+	  topics += Topic("Government", "issues related to poor working of government departments and government servents")
+	  topics += Topic("Other", "other issues")
+	})
+
 }

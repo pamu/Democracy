@@ -10,6 +10,7 @@ object Global extends GlobalSettings {
     //DAO.clean
     //DAO.init
     //DAO.initTables
+    //DAO.fillTopics
   }  
   
   override def onStop(app: Application) {
