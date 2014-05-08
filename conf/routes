@@ -7,6 +7,7 @@ GET    /javascriptRoutes                       controllers.Application.javascrip
 GET    /message                                controllers.Application.message
 GET    /endorseOrDismissPost/:postId           controllers.Application.endorseOrDismissPost(postId: Long)
 GET    /endorseOrDismissComment/:commentId     controllers.Application.endorseOrDismissComment(commentId: Long)
+POST    /comment/new/                          controllers.Application.comment()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

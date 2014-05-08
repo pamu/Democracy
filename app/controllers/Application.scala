@@ -57,7 +57,8 @@ object Application extends Controller with Secured {
   			controllers.routes.javascript.Application.post,
   	   		controllers.routes.javascript.Application.message,
   	   		controllers.routes.javascript.Application.endorseOrDismissPost,
-  	   		controllers.routes.javascript.Application.endorseOrDismissComment
+  	   		controllers.routes.javascript.Application.endorseOrDismissComment,
+  	   		controllers.routes.javascript.Application.comment
   	        )
   	    ).as(JAVASCRIPT)
   	}
@@ -101,4 +102,12 @@ object Application extends Controller with Secured {
      Ok(Json.toJson("dismiss"))
     }
   }
+  
+  /**
+   * action for adding comments to a post
+   */
+  def comment() = withUserWithBodyParser(parse.json) { user => implicit request =>
+    Ok("")
+  }
+  
 }

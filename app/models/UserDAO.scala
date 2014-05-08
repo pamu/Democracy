@@ -44,7 +44,7 @@ object UserDAO {
 	})
 	
 	/**
-	 * 
+	 * endorse or dismiss the post
 	 */
 	def endorseOrDismissPost(userId: Long, postId: Long) = db.withTransaction(implicit tx => {
 	  val query = for(endorsePost <- endorsePosts.filter(_.endorserId === userId).filter(_.postId === postId)) yield endorsePost
@@ -56,7 +56,7 @@ object UserDAO {
 	})
 	
 	/**
-	 * 
+	 * check endorse state of comment 
 	 */
 	def isEndorsedComment(userId: Long, commentId: Long) = db.withTransaction(implicit tx => {
 	  val query = for(endorseComment <- endorseComments.filter(_.endorserId === userId).filter(_.commentId === commentId)) yield endorseComment
@@ -64,7 +64,7 @@ object UserDAO {
 	})
 	
 	/**
-	 * 
+	 * endorse or dismiss the comment
 	 */
 	def endorseOrDismissComment(userId: Long, commentId: Long) = db.withTransaction(implicit tx => {
 	  val query = for(endorseComment <- endorseComments.filter(_.endorserId === userId).filter(_.commentId === commentId)) yield endorseComment
@@ -97,5 +97,29 @@ object UserDAO {
 	def noOfEndorsesOnComments(commentId: Long) = db.withTransaction(implicit tx => {
 	  def query = for(endorseComment <- endorseComments.filter(_.commentId === commentId )) yield endorseComment
 	  query.countDistinct
+	})
+	
+	/**
+	 * add comment to a post
+	 */
+	def saveComment(userId: Long, postId: Long, content: String) = db.withTransaction(implicit tx => {
+	  comments += Comment(userId, postId, content)
+	})
+	
+	/**
+	 * extract feed
+	 */
+	def feed(userId: Long) = db.withTransaction(implicit tx => {
+	  
+	})
+	
+	/**
+	 * extract comments 
+	 */
+	
+	def getIteratorOfCommentInfoWithPostId(postId: Long) = db.withTransaction(implicit tx => {
+	  val query = for{(comment, user) <- comments.filter(_.postId === postId) innerJoin users on(_.commenterId === _.id) 
+	  } yield (comment, user)
+	  query.sorted(_._1.id.desc.nullsLast).iterator
 	})
 }
