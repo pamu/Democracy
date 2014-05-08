@@ -59,7 +59,6 @@
 			<h3 id="myModalLabel">Post</h3>
 		</div>
 		<div class="modal-body">
-			<p>One fine body…</p>
 			<label>Post about </label>
 			<select class="selectpicker" id="topic_selector">
 				<option value="1">Technology</option>
@@ -74,7 +73,7 @@
 			</select>
 			
 			<label>What's in your mind?</label>
-			<textarea id="content" rows="10" class="span7"></textarea>
+			<textarea id="content" rows="5" class="span6" required></textarea>
 		</div>
 		<div class="modal-footer">
 			<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
@@ -91,21 +90,27 @@
 
         	var topicId = $("#topic_selector").val();
         	var content = $("#content").val();
-        	
-        	var postData = {
-            	'topicId': Number(topicId),
-            	'content': content
-            }
-            
-        	jsRoutes.controllers.Application.post().ajax({
-            	data: JSON.stringify(postData),
-               	contentType:'application/json',
-               	success: function(data) {
-                   	alert("data "+data)
-                   	$('.modal').modal('hide')
-                   	$("#content").val('')
-                }
-            });
+
+        	if(content.length > 0) {
+            	
+        		var postData = {
+                    	'topicId': Number(topicId),
+                    	'content': content
+                    }
+                    
+                	jsRoutes.controllers.Application.post().ajax({
+                    	data: JSON.stringify(postData),
+                       	contentType:'application/json',
+                       	success: function(data) {
+                           	alert("data "+data)
+                           	$('.modal').modal('hide')
+                           	$("#content").val('')
+                        }
+                    });
+                
+        	}else {
+            	alert("post is empty");
+        	}
 			
 		});
 	});

@@ -36,6 +36,9 @@ object Auth extends Controller {
     )
   }
   
+  /**
+   * Signup form
+   */
   val signupForm = Form(
       
 		  mapping(
@@ -75,7 +78,9 @@ object Auth extends Controller {
 		  	
   
   def exists(email: String): Boolean = {
-    
+    /**
+     * Check is email exists in the database
+     */
     UserDAO.findOneByEmail(email) match {
       case Some(user) => true
       case None => false
