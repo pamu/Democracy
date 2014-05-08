@@ -76,14 +76,29 @@ object Application extends Controller with Secured {
  /**
   *  like or unlike post and send the current state
   */
-  def endorseOrDismissPost() = withUserWithBodyParser(parse.json) { user => implicit request =>
-    UserDAO.isEndorsedPost(user.id.get, )
+  def endorseOrDismissPost(postId: Long) = withUser { user => implicit request =>
+    val endorsed = UserDAO.isEndorsedPost(user.id.get, postId)
+    if(endorsed){
+      UserDAO.endorseOrDismissPost(user.id.get, postId)
+      Ok(Json.toJson("endorse"))
+    }else {
+      UserDAO.endorseOrDismissPost(user.id.get, postId)
+      Ok(Json.toJson("dismiss"))
+    }
+    
   }
   
   /**
    * like or unlike comment
    */
-  def endorseOrDismissComment() = withUserWithBodyParser(parse.json) { user => implicit request => 
-    Ok("")
+  def endorseOrDismissComment(commentId: Long) = withUser { user => implicit request => 
+    val endorsed = UserDAO.isEndorsedComment(user.id.get, commentId)
+    if(endorsed) {
+      UserDAO.endorseOrDismissComment(user.id.get, commentId)
+      Ok(Json.toJson("endorse"))
+    }else {
+     UserDAO.endorseOrDismissComment(user.id.get, commentId)
+     Ok(Json.toJson("dismiss"))
+    }
   }
 }

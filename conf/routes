@@ -2,11 +2,11 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-GET     /                           controllers.Application.index()
-GET    /javascriptRoutes            controllers.Application.javascriptRoutes()
-GET    /message                     controllers.Application.message
-GET    /endorseOrDismissPost        controllers.Application.endorseOrDismissPost()
-GET    /endorseOrDismissComment     controllers.Application.endorseOrDismissComment()
+GET     /                                      controllers.Application.index()
+GET    /javascriptRoutes                       controllers.Application.javascriptRoutes()
+GET    /message                                controllers.Application.message
+GET    /endorseOrDismissPost/:postId           controllers.Application.endorseOrDismissPost(postId: Long)
+GET    /endorseOrDismissComment/:commentId     controllers.Application.endorseOrDismissComment(commentId: Long)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

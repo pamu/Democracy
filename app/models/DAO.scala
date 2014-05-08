@@ -40,6 +40,9 @@ object DAO {
 	  
 	})
 	
+	/**
+	 * get auto increment values id values during insertion of the data
+	 */
 	object AutoInc {
 	  
 	  def userAutoId = users returning users.map(_.id) into {
@@ -55,6 +58,9 @@ object DAO {
 	  }
 	}
 	
+	/**
+	 * topics this project targets 
+	 */
 	def fillTopics = db.withTransaction(implicit tx => {
 	  topics += Topic("Technology","technical issues")
 	  topics += Topic("Social", "social issues")

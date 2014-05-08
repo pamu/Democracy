@@ -7,6 +7,9 @@ import models._
 
 object Auth extends Controller {
   
+  /**
+   * Login Form definition, constraints and errors (errors definitions are in conf/messages)
+   */
   val loginForm = Form(
       
       tuple(
@@ -21,14 +24,23 @@ object Auth extends Controller {
               )
              )
   
+  /**
+   * check email and password , triggers a database access
+   */
   def check(email: String, password: String): Boolean = {
     UserDAO.authenticate(email, password)
   }
   
+  /**
+   * fetches a login page
+   */
   def loginPage() = Action {implicit request =>
     Ok(views.html.loginPage(loginForm))
   }
   
+  /**
+   * action to which login form will be submitted
+   */
   def loginAuth() = Action { implicit request =>
     loginForm.bindFromRequest().fold(
       formWithErrors => BadRequest(views.html.loginPage(formWithErrors)),
@@ -37,7 +49,7 @@ object Auth extends Controller {
   }
   
   /**
-   * Signup form
+   * Signup form definition
    */
   val signupForm = Form(
       
@@ -76,7 +88,9 @@ object Auth extends Controller {
 		)//form
 		      	
 		  	
-  
+  /**
+   * check whether user with given email exists
+   */
   def exists(email: String): Boolean = {
     /**
      * Check is email exists in the database
@@ -88,10 +102,16 @@ object Auth extends Controller {
     
   }
   
+  /**
+   * fetch signupPage
+   */
   def signupPage() = Action {implicit request =>
     Ok(views.html.signupPage(signupForm))
   }
   
+  /**
+   * target action for signup form
+   */
   def signupAuth() = Action { implicit request =>
     signupForm.bindFromRequest().fold(
         formWithErrors => BadRequest(views.html.signupPage(formWithErrors)),
