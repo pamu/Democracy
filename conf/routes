@@ -2,12 +2,22 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-GET     /                                      controllers.Application.index()
-GET    /javascriptRoutes                       controllers.Application.javascriptRoutes()
-GET    /message                                controllers.Application.message
-GET    /endorseOrDismissPost/:postId           controllers.Application.endorseOrDismissPost(postId: Long)
-GET    /endorseOrDismissComment/:commentId     controllers.Application.endorseOrDismissComment(commentId: Long)
-POST    /comment/new/                          controllers.Application.comment()
+GET    /                                      controllers.Application.index()
+GET    /javascriptRoutes                      controllers.Application.javascriptRoutes()
+GET    /message                               controllers.Application.message
+GET    /endorseOrDismissPost/:postId          controllers.Application.endorseOrDismissPost(postId: Long)
+GET    /endorseOrDismissComment/:commentId    controllers.Application.endorseOrDismissComment(commentId: Long)
+POST   /comment/new/                          controllers.Application.comment()
+GET    /user/:email                           controllers.Application.profile(email: String)
+#GET    /feed                                  controllers.Application.feed()
+GET    /subscribe/post/:id                    controllers.Application.subscribePost(id: Long)
+GET    /subscribe/user/:id                    controllers.Application.subscribeUser(id: Long)
+GET    /subscribe/topic/:id                   controllers.Application.subscribeTopic(id: Long)
+GET    /posts                                 controllers.Application.posts()
+GET    /topics                                controllers.Application.topics()
+GET    /post/:id                              controllers.Application.showPost(id: Long)
+GET    /isTopicSubscribed/:id                 controllers.Application.isTopicSubscribed(id: Long)
+GET    /isEndorsedPost/:id                    controllers.Application.isEndorsedPost(id: Long)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

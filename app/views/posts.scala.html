@@ -1,0 +1,11 @@
+@* posts Template File *@
+@(posts: List[models.Post])(implicit session: play.api.mvc.Session)
+
+@main("Posts"){
+	@for(post <- posts){
+		<div class="well">
+			content: <div class="alert alert-success">@post.content</div>
+			<div class="alert alert-info">at @post.timestamp</div>
+		</div>
+	}
+}

@@ -53,7 +53,11 @@ object DAO {
 	    case (_, id) => id
 	  }
 	  
-	  def topicAutoId = topics returning users.map(_.id) into {
+	  def topicAutoId = topics returning topics.map(_.id) into {
+	    case (_, id) => id
+	  }
+	  
+	  def subscriptionId = subscriptions returning subscriptions.map(_.id) into {
 	    case (_, id) => id
 	  }
 	}

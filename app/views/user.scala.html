@@ -1,0 +1,14 @@
+@* user Template File *@
+@(user: User)(implicit session: play.api.mvc.Session)
+@main(session.get("email").getOrElse("User")){
+	<div class="well">
+		<div class="alert alert-info">Email: @user.email</div>
+		<div class="alert alert-info">Description: @user.desc</div>
+		<div class="alert alert-info">Location: @user.location</div>
+	</div>
+	
+	<div class="well">
+		<div class="alert alert-info">@user.email activity</div>
+	</div>
+}
+

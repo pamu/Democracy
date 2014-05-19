@@ -1,9 +1,10 @@
 package models
 
 import scala.slick.driver.MySQLDriver.simple._
-import scala.slick.lifted.{TableQuery, Tag}
+import scala.slick.lifted.Tag
 import scala.slick.model.ForeignKeyAction
 import java.sql.Timestamp
+
 
 case class User(email: String, password: String, desc: String, location: String, id: Option[Long] = None)
 

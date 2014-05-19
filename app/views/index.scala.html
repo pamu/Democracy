@@ -1,7 +1,55 @@
-@(title: String)(implicit session: play.api.mvc.Session)
+@(feeds: List[(models.User, models.Post)])(implicit session: play.api.mvc.Session)
+
+@import java.sql.Timestamp
 
 @main("Welcome to Democracy"){
- <div class="well">
- 	<h1>Feed</h1>
- </div>
+ 	@for(feed <- feeds){
+ 	     <div class="alert alert-success">
+ 	     
+ 			<div>
+ 				<span class="label label-inverse">Posted by <a href="/user/@feed._1.email">@feed._1.email</a> at  @feed._1.desc,  @feed._1.location  <span class="label label-important">topic: <a href="/topics">@feed._2.topicId</a></span></span> <button class="btn" id="">follow</button>
+	 		</div>
+	 		
+	 		<div>
+	 			<a href="/post/@feed._2.id.get"><pre>@feed._2.content</pre></a>
+	 		</div>
+	 		
+	 		<button id="@{feed._2.id.get}" name="1" class="btn">endorse</button>
+	 		<br/>
+	 		
+	 		comment:
+	 		<textarea rows="1" class="span11"></textarea>
+	 		<button id="@{feed._2.id.get}" name="2" class="btn">submit</button>
+ 		</div>
+ 	}
+ 	<script type="text/javascript">
+ 		$(document).ready(function(){
+
+ 	 		jsRoutes.controllers.Application.isEndorsedPost(52).ajax({
+ 	 	 		success: function(data){
+ 	 	 	 				if(data == "true"){
+ 	 	 	 				 $("#52").text("dismiss")
+ 	 	 	 				}else{
+ 	 	 	 				$("#52").text("endorse")
+ 	 	 	 				}
+ 	 	 	 				
+ 	 	 	 		     }
+ 	 	 	})
+ 			$(".btn").click(function(event){
+ 				var id = this.id
+ 				var name = this.name
+ 				
+ 				if(name == 1) {
+ 	 				//alert("endorse")
+ 	 				jsRoutes.controllers.Application.endorseOrDismissPost(id).ajax({
+ 	 	 				success: function(data){
+ 	 	 	 						$("#"+id).text(data)
+ 	 	 	 				     }
+ 	 	 			})				
+ 				}else {
+ 	 				
+ 				}
+ 			})
+ 		})
+ 	</script>
 }

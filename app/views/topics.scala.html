@@ -1,0 +1,46 @@
+@* topics Template File *@
+@(user: models.User)(implicit session: play.api.mvc.Session)
+
+@main("Topics"){
+	<div class="well">
+		
+		<div class="alert alert-success">Technology 
+			<button id="1" class="btn">follow</button>
+		</div> 
+		<div class="alert alert-success">Social <button class="btn btn-default">follow</button></div> 
+		<div class="alert alert-success">Culture <button class="btn btn-default">follow</button></div> 
+		<div class="alert alert-success">Economics <button class="btn btn-default">follow</button></div> 
+		<div class="alert alert-success">Crime <button class="btn btn-default">follow</button></div> 
+		<div class="alert alert-success">Politics <button class="btn btn-default">follow</button></div> 
+		<div class="alert alert-success">Corruption <button class="btn btn-default">follow</button></div> 
+		<div class="alert alert-success">Government <button class="btn btn-default">follow</button></div>
+		<div class="alert alert-success">others <button class="btn btn-default">follow</button></div> 
+	</div>
+	
+	
+	<script type="text/javascript">
+	
+		$(document).ready(function(){
+			jsRoutes.controllers.Application.isTopicSubscribed(1).ajax({
+				success: function(data){
+					if(data == "true"){
+						$("#1").text("unfollow")
+					}else{
+						$("#1").text("follow")
+					}
+				}
+			})
+			$(".btn").click(function(event){
+				var id = this.id
+				jsRoutes.controllers.Application.subscribeTopic(id).ajax({
+					success: function(data){
+						       $("#"+id).text(data)
+						     }
+				});
+				
+				
+			});
+		});
+		
+	</script>
+}

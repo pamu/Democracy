@@ -73,7 +73,7 @@ object Auth extends Controller {
 		      
 		      //binding information
 		      {
-			  	(email, passwords, location, description) => User(email, passwords._1, location, description, None)
+			  	(email, passwords, description, location) => User(email, passwords._1, location, description, None)
 		      }
 		  	  //unbinding information
 		  	  {
